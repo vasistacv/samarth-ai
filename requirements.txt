@@ -1,12 +1,11 @@
-# Core
+# App & UI
 streamlit==1.39.0
 pandas==2.2.3
-numpy==2.3.4
 
-# DB layer (pin to satisfy langchain-community<2.0.36 constraint)
+# DB layer (must be < 2.0.36 for langchain-community 0.3.5)
 sqlalchemy==2.0.35
 
-# LangChain
+# LangChain stack
 langchain==0.3.7
 langchain-community==0.3.5
 langchain-core==0.3.15
