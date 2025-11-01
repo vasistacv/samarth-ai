@@ -183,7 +183,7 @@ llm = _make_llm()
 SYSTEM_CORE = (
     "Answer the user directly. Use concrete numbers with units where sensible. "
     "Prefer compact bullets or a short paragraph. Avoid negative phrasing or apologies. "
-    "If exact figures are unavailable, provide an informed estimate with units and a one-line rationale. "
+    "If exact figures are unavailable, provide an informed estimate with units and a one-line rationale. and try more explain more "
     "Keep answers crisp and helpful."
 )
 
@@ -535,8 +535,8 @@ def answer(question: str, session_id: str) -> str:
     # 1) Small-talk
     if is_smalltalk(q):
         return (
-            "Hey! I’m **Samarth AI** — ask me agriculture, rainfall, or GK. "
-            "Try: *“Annual rainfall for Davangere district”* or *“Top 5 crops in Davangere in 2015.”*"
+            "Hey! I’m Samarth AI - ask me agriculture, rainfall, or GK. "
+            "Try: “Annual rainfall for Davangere district” or “Top 5 crops in Davangere in 2015.”"
         )
 
     # 2) Practice KB (rainfall guidance for a crop)
