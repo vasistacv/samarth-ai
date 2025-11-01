@@ -8,6 +8,9 @@ import uuid
 import yaml
 import logging
 import time
+import shutil
+import gzip
+from zipfile import ZipFile
 
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
@@ -21,22 +24,145 @@ logging.basicConfig(level=LOG_LEVEL, format="%(asctime)s [%(levelname)s] %(name)
 log = logging.getLogger("agent.core")
 
 # ---------------------------------------------
-# Env & paths
+# Env (no hard dependency on .env in Cloud)
 # ---------------------------------------------
-load_dotenv()
-API_KEY = os.getenv("GROQ_API_KEY")
-if not API_KEY:
-    raise ValueError("GROQ_API_KEY missing in .env")
+load_dotenv()  # harmless if no .env
+API_KEY = os.getenv("GROQ_API_KEY")  # Streamlit Secrets inject this
 
-DB_PATH = Path("data/processed/samarth_data.db").resolve()
-AG_KB_PATH = Path("data/agronomy_kb.yaml")
+# ---------------------------------------------
+# Paths & DB bootstrap (handles .zip / .gz)
+# ---------------------------------------------
+# We are flexible about where you placed the compressed DB:
+#   - agent/data/processed/samarth_data.zip
+#   - agent/data/samarth_data.zip
+#   - data/processed/samarth_data.zip
+#   - data/samarth_data.zip
+BASE_DIR = Path(__file__).parent
+CANDIDATE_DIRS: List[Path] = [
+    BASE_DIR / "data" / "processed",
+    BASE_DIR / "data",
+    Path("data/processed"),
+    Path("data"),
+    BASE_DIR,              # last resorts
+    Path("."),
+]
 
+DB_NAME = "samarth_data.db"
+DB_BASENAME = DB_NAME  # final extracted filename
+
+ZIP_CANDIDATES = [
+    "samarth_data.zip",
+    "samarth_data.db.zip",
+]
+GZ_CANDIDATES = [
+    "samarth_data.gz",
+    "samarth_data.db.gz",
+]
+
+def _ensure_db_present() -> Path:
+    """Return absolute path to samarth_data.db. Inflate from .zip/.gz if needed."""
+    found_db: Optional[Path] = None
+    # 1) Already extracted?
+    for d in CANDIDATE_DIRS:
+        p = (d / DB_BASENAME).resolve()
+        if p.exists() and p.is_file():
+            found_db = p
+            break
+
+    if found_db:
+        log.info("Using existing DB at %s", found_db)
+        return found_db
+
+    # 2) Try to find compressed archive and inflate
+    def try_inflate_from_zip(zip_path: Path, target_dir: Path) -> Optional[Path]:
+        if not zip_path.exists():
+            return None
+        target_dir.mkdir(parents=True, exist_ok=True)
+        with ZipFile(zip_path, "r") as zf:
+            names = zf.namelist()
+            # Prefer exact file if present; else extract the first .db we see
+            db_member = None
+            if DB_BASENAME in names:
+                db_member = DB_BASENAME
+            else:
+                for n in names:
+                    if n.lower().endswith(".db"):
+                        db_member = n
+                        break
+            if not db_member:
+                raise RuntimeError(f"No .db file inside {zip_path.name}")
+            zf.extract(db_member, path=target_dir)
+            out = (target_dir / Path(db_member).name).resolve()
+            log.info("Inflated DB from %s → %s", zip_path, out)
+            return out
+
+    def try_inflate_from_gz(gz_path: Path, target_dir: Path) -> Optional[Path]:
+        if not gz_path.exists():
+            return None
+        target_dir.mkdir(parents=True, exist_ok=True)
+        out = (target_dir / DB_BASENAME).resolve()
+        with gzip.open(gz_path, "rb") as fin, open(out, "wb") as fout:
+            shutil.copyfileobj(fin, fout)
+        log.info("Inflated DB from %s → %s", gz_path, out)
+        return out
+
+    # Search for a .zip/.gz to inflate
+    for d in CANDIDATE_DIRS:
+        # zip first
+        for nm in ZIP_CANDIDATES:
+            zp = (d / nm).resolve()
+            try:
+                out = try_inflate_from_zip(zp, d)
+                if out and out.exists():
+                    return out
+            except Exception as e:
+                log.warning("Zip inflate failed from %s: %s", zp, e)
+
+        # gz next
+        for nm in GZ_CANDIDATES:
+            gp = (d / nm).resolve()
+            try:
+                out = try_inflate_from_gz(gp, d)
+                if out and out.exists():
+                    return out
+            except Exception as e:
+                log.warning("GZ inflate failed from %s: %s", gp, e)
+
+    # 3) Still missing
+    raise FileNotFoundError(
+        "SQLite database not found. Place one of these in your repo:\n"
+        f"- data/processed/{DB_BASENAME}\n"
+        f"- data/{DB_BASENAME}\n"
+        f"- agent/data/processed/{DB_BASENAME}\n"
+        f"- agent/data/{DB_BASENAME}\n"
+        "Or upload a compressed file alongside it: samarth_data.zip / samarth_data.db.zip "
+        "or samarth_data.gz / samarth_data.db.gz (the app will auto-extract)."
+    )
+
+DB_PATH = _ensure_db_present()
+
+# Keep a small in-memory cache for last structured result
 _LAST_RESULT: Dict[str, Dict[str, Any]] = {}
 
 # ---------------------------------------------
-# LLM
+# LLM (friendly if key is missing)
 # ---------------------------------------------
 def _make_llm():
+    if not API_KEY:
+        class _Fallback:
+            def invoke(self, msgs):
+                # Short, neutral fallback if key isn’t set
+                return type("Obj", (), {
+                    "content": (
+                        "Answer: Please add your GROQ_API_KEY in Streamlit → Settings → Secrets to enable AI answers.\n"
+                        "- Why 1: The LLM requires an API key to generate explanations.\n"
+                        "- Why 2: Keys are stored securely in Streamlit Secrets.\n"
+                        "- Why 3: No .env is needed in the public repo."
+                    )
+                })()
+        log.warning("GROQ_API_KEY not found in environment; using fallback stub.")
+        return _Fallback()
+
     last_err = None
     for model in ["llama-3.1-8b-instant", "llama-3.1-70b-versatile"]:
         try:
@@ -44,7 +170,8 @@ def _make_llm():
                 model_name=model,
                 temperature=0.15,
                 max_tokens=900,
-                request_timeout=45
+                request_timeout=45,
+                groq_api_key=API_KEY,
             )
         except Exception as e:
             last_err = e
@@ -61,10 +188,8 @@ SYSTEM_CORE = (
 )
 
 # ---------------------------------------------
-# Database (internal only)
+# Database handle (now that DB_PATH exists)
 # ---------------------------------------------
-if not DB_PATH.exists():
-    log.warning("Database not found at %s. Analytics require ETL.", DB_PATH)
 db = SQLDatabase.from_uri(f"sqlite:///{DB_PATH}")
 
 # ---------------------------------------------
@@ -82,6 +207,8 @@ UNIT_SUFFIX = {
 # ---------------------------------------------
 # Lightweight agronomy KB (optional file)
 # ---------------------------------------------
+AG_KB_PATH = Path("data/agronomy_kb.yaml")
+
 @functools.lru_cache(maxsize=1)
 def load_ag_kb() -> Dict[str, Any]:
     if not AG_KB_PATH.exists():
@@ -414,7 +541,6 @@ def answer(question: str, session_id: str) -> str:
 
     # 2) Practice KB (rainfall guidance for a crop)
     if is_practice(q):
-        # Very compact KB → fallback to synthesis for completeness
         return _synthesize_direct_answer(q)
 
     # 3) Analytics (tables first, then synth fallback)
