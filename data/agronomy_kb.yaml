@@ -1,0 +1,44 @@
+meta:
+  source_notes: >
+    Ranges synthesized from standard Indian agronomy references such as ICAR packages
+    of practices and FAO crop guides. Values are indicative and vary by cultivar and soil.
+
+crops:
+  groundnut:
+    common_names: [peanut, ground nut, moongphali]
+    rainfall_mm:
+      optimal_range: [500, 700]
+      minimum_rainfed: 450
+      critical_stages: [flowering, pegging, pod_filling]
+      note: >
+        Even distribution is important. Water stress at flowering/pegging sharply reduces yield.
+    season_india: [Kharif, Rabi (limited, irrigated), Summer (irrigated)]
+  rice:
+    rainfall_mm:
+      optimal_range: [1200, 1500]
+      minimum_rainfed: 1000
+      note: >
+        Lowland transplanted rice tolerates ponded water; upland rice needs well-distributed rains.
+  wheat:
+    rainfall_mm:
+      optimal_range: [350, 550]
+      minimum_rainfed: 300
+      note: >
+        Grown in Rabi; sensitive to terminal heat and waterlogging.
+  maize:
+    rainfall_mm:
+      optimal_range: [500, 800]
+      minimum_rainfed: 400
+      note: >
+        Avoid waterlogging; drought at tasseling/silking is critical.
+  sugarcane:
+    rainfall_mm:
+      optimal_range: [1200, 1800]
+      irrigated_equiv_mm: 1500
+      note: >
+        Long-duration crop; supplemental irrigation common in low-rainfall zones.
+  millets:
+    rainfall_mm:
+      optimal_range: [300, 600]
+      note: >
+        Pearl, finger, small millets are drought-resilient; thrive under low to moderate rainfall.

@@ -1,0 +1,11 @@
+data/raw
+data/app_state
+*.zip
+*.csv
+.git
+.vscode
+env
+venv
+__pycache__
+frontend/node_modules
+node_modules
