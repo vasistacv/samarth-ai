@@ -490,19 +490,14 @@ export default function ChatMessage({
                 {/* Message Bubble */}
                 <div
                     className={cn(
-                        "relative text-[15px] leading-7",
-                        isUser ? "msg-user px-5 py-3.5" : "msg-ai pt-1"
+                        "relative text-[15px] leading-relaxed",
+                        isUser ? "msg-user px-5 py-3.5" : "msg-ai py-1 px-1"
                     )}
                 >
                     {!content.includes("[[STRUCTURED_RESULT::") && (
                         <div
                             className={cn(
-                                "prose prose-neutral max-w-none break-words prose-themed",
-                                "prose-p:my-1.5 prose-p:leading-relaxed",
-                                "prose-headings:font-semibold prose-headings:mt-6 prose-headings:mb-3",
-                                "prose-li:my-0.5",
-                                "prose-pre:m-0 prose-pre:p-0 prose-pre:bg-transparent",
-                                "prose-strong:font-semibold",
+                                "prose prose-neutral max-w-none break-words prose-themed"
                             )}
                             style={{ color: "var(--text-primary)" }}
                         >

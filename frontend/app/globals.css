@@ -21,39 +21,39 @@
   --bg-sidebar: #171717;
   --bg-sidebar-hover: #262626;
   --bg-sidebar-active: #2a2a2a;
-  
+
   --text-primary: #1a1a1a;
   --text-secondary: #5f6368;
   --text-tertiary: #9aa0a6;
   --text-on-dark: #e8eaed;
   --text-sidebar: #d1d5db;
-  
+
   --border-primary: #e5e7eb;
   --border-secondary: #f0f0f0;
   --border-sidebar: #333333;
-  
+
   --accent-primary: #4285f4;
   --accent-secondary: #7c3aed;
   --accent-gradient-start: #4285f4;
   --accent-gradient-end: #a855f7;
   --accent-glow: rgba(66, 133, 244, 0.15);
-  
+
   --surface-user-msg: #f0f4f9;
   --surface-ai-msg: transparent;
   --surface-input: #f4f4f4;
   --surface-input-focus: #ffffff;
-  
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
   --shadow-glow: 0 0 20px rgba(66, 133, 244, 0.15);
-  
+
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-full: 9999px;
-  
+
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -77,31 +77,31 @@
   --bg-sidebar: #0a0a0a;
   --bg-sidebar-hover: #1a1a1a;
   --bg-sidebar-active: #242424;
-  
+
   --text-primary: #e8eaed;
   --text-secondary: #9aa0a6;
   --text-tertiary: #5f6368;
   --text-on-dark: #e8eaed;
   --text-sidebar: #bdc1c6;
-  
+
   --border-primary: #2d2d2d;
   --border-secondary: #333333;
   --border-sidebar: #2d2d2d;
-  
+
   --accent-primary: #669df6;
   --accent-secondary: #a78bfa;
   --accent-gradient-start: #669df6;
   --accent-gradient-end: #c084fc;
   --accent-glow: rgba(102, 157, 246, 0.2);
-  
+
   --surface-user-msg: #1e293b;
   --surface-ai-msg: transparent;
   --surface-input: #1e1e1e;
   --surface-input-focus: #262626;
-  
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
-  --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 25px rgba(102, 157, 246, 0.2);
 }
 
@@ -152,6 +152,7 @@ body {
    Utility Classes
    ============================================ */
 @layer utilities {
+
   /* --- Glassmorphism --- */
   .glass {
     background: rgba(255, 255, 255, 0.7);
@@ -243,12 +244,10 @@ body {
 
   /* --- Shimmer loading --- */
   .shimmer {
-    background: linear-gradient(
-      90deg,
-      var(--bg-tertiary) 25%,
-      var(--bg-secondary) 37%,
-      var(--bg-tertiary) 63%
-    );
+    background: linear-gradient(90deg,
+        var(--bg-tertiary) 25%,
+        var(--bg-secondary) 37%,
+        var(--bg-tertiary) 63%);
     background-size: 400% 100%;
     animation: shimmer 1.4s ease infinite;
   }
@@ -277,6 +276,7 @@ body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -327,8 +327,13 @@ body {
    Keyframes
    ============================================ */
 @keyframes shimmer {
-  0% { background-position: 100% 50%; }
-  100% { background-position: 0 50%; }
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
 }
 
 @keyframes messageIn {
@@ -336,6 +341,7 @@ body {
     opacity: 0;
     transform: translateY(12px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -343,32 +349,65 @@ body {
 }
 
 @keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -20px) scale(1.05); }
-  66% { transform: translate(-20px, 15px) scale(0.95); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+
+  66% {
+    transform: translate(-20px, 15px) scale(0.95);
+  }
 }
 
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes bounce-gentle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 @keyframes typing-dot {
-  0%, 80%, 100% { 
+
+  0%,
+  80%,
+  100% {
     transform: scale(0.6);
     opacity: 0.4;
   }
-  40% { 
+
+  40% {
     transform: scale(1);
     opacity: 1;
   }
@@ -379,6 +418,7 @@ body {
     opacity: 0;
     transform: translateY(16px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -390,6 +430,7 @@ body {
     transform: scale(0.8);
     opacity: 1;
   }
+
   100% {
     transform: scale(2.4);
     opacity: 0;
@@ -397,12 +438,21 @@ body {
 }
 
 @keyframes particle-float {
-  0%, 100% { 
+
+  0%,
+  100% {
     transform: translate(0, 0);
     opacity: 0;
   }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
   50% {
     transform: translate(var(--tx, 20px), var(--ty, -40px));
   }
@@ -489,9 +539,17 @@ body {
   animation: typing-dot 1.4s infinite ease-in-out;
 }
 
-.typing-dot:nth-child(1) { animation-delay: 0ms; }
-.typing-dot:nth-child(2) { animation-delay: 160ms; }
-.typing-dot:nth-child(3) { animation-delay: 320ms; }
+.typing-dot:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 160ms;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 320ms;
+}
 
 /* --- Send Button --- */
 .send-btn {
@@ -708,22 +766,143 @@ body {
   .input-container {
     border-radius: var(--radius-lg);
   }
-  
+
   .welcome-card {
     padding: 14px 16px;
   }
 }
 
 /* --- Prose overrides for markdown --- */
+/* --- Advanced Prose / Typography Overrides --- */
 .prose-themed {
-  --tw-prose-body: var(--text-primary);
-  --tw-prose-headings: var(--text-primary);
-  --tw-prose-links: var(--accent-primary);
-  --tw-prose-bold: var(--text-primary);
-  --tw-prose-counters: var(--text-secondary);
-  --tw-prose-bullets: var(--text-tertiary);
-  --tw-prose-quotes: var(--text-secondary);
-  --tw-prose-code: var(--text-primary);
+  max-width: 100% !important;
+  /* Allow full width */
+  font-size: 15px;
+  line-height: 1.75;
+  /* Improved readability */
+  color: var(--text-primary);
+}
+
+.prose-themed>*+* {
+  margin-top: 1.5em;
+  /* Breakdown walls of text */
+}
+
+/* Headings */
+.prose-themed h1,
+.prose-themed h2,
+.prose-themed h3,
+.prose-themed h4 {
+  color: var(--text-primary);
+  font-weight: 700;
+  margin-top: 2em;
+  margin-bottom: 0.8em;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.prose-themed h3 {
+  font-size: 1.15em;
+  border-bottom: 1px solid var(--border-secondary);
+  padding-bottom: 0.3em;
+  margin-top: 2.5em;
+  /* Distinct separation */
+}
+
+/* Lists */
+.prose-themed ul,
+.prose-themed ol {
+  padding-left: 1.25em;
+  margin: 1.2em 0;
+}
+
+.prose-themed li {
+  margin: 0.5em 0;
+  padding-left: 0.4em;
+}
+
+.prose-themed ul>li::marker {
+  color: var(--accent-primary);
+  /* Brand colored bullets */
+}
+
+/* Strong / Bold */
+.prose-themed strong {
+  font-weight: 700;
+  color: var(--text-primary);
+  background: linear-gradient(to right, var(--bg-tertiary), transparent);
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+/* Blockquotes (Strategic Insights) */
+.prose-themed blockquote {
+  border-left: 3px solid var(--accent-primary);
+  background: var(--bg-tertiary);
+  /* Subtle background */
+  padding: 1em 1.25em;
+  margin: 2em 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-style: normal;
+  /* Remove italic */
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Tables */
+.prose-themed table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2em 0;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  font-size: 0.9em;
+}
+
+.prose-themed thead th {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-primary);
+  text-align: left;
+}
+
+.prose-themed tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-secondary);
+  color: var(--text-primary);
+}
+
+.prose-themed tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose-themed tbody tr:hover {
+  background-color: var(--bg-secondary);
+}
+
+/* HR */
+.prose-themed hr {
+  border-color: var(--border-primary);
+  margin: 3em 0;
+}
+
+/* Links */
+.prose-themed a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.prose-themed a:hover {
+  border-bottom-color: var(--accent-primary);
 }
 
 /* --- Focus ring --- */
