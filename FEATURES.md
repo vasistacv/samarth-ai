@@ -1,6 +1,29 @@
 # 🎯 Samarth AI - Complete Features Documentation
 
-## 🌟 Core Features
+## 🌟 Premium Enterprise Features (v2.0 Update)
+
+### 🎨 Enterprise UI/UX Overhaul
+- **Dark/Light Theme Toggle**: Switch between a professional dark mode (Gemini-style) and a clean light mode with a single click.
+- **Glassmorphism Design**: Premium frosted glass effects on sidebars, overlays, and headers.
+- **Floating Animations**: Interactive particle effects and gradient orbs on the welcome screen for a wow factor.
+- **Auto-expanding Input**: ChatGPT-style text area that grows dynamically as you type.
+- **Premium Typography**: Uses `Inter` for UI and `JetBrains Mono` for code blocks.
+- **Sleek Sidebar**: Collapsible sidebar with search, pinned chats, and keyboard shortcut hints.
+
+### ⚡ Advanced Interactions
+- **Keyboard Shortcuts**:
+  - `Ctrl + K`: Search chats
+  - `Ctrl + /`: Focus input
+  - `Ctrl + N`: New chat
+  - `Shift + Enter`: New line
+- **Pin Conversations**: Keep important analysis at the top of your list.
+- **Chat Search**: Instantly find past queries and data filters.
+- **Read Aloud**: Text-to-speech for all AI responses (accessibility).
+- **Feedback System**: Like/Dislike buttons for model improvement telemetry.
+
+---
+
+## 🌟 Core Features (v1.0 Legacy)
 
 ### 1. **Advanced Voice Assistant**
 - **Speech Recognition**: Click the microphone button to speak your questions
@@ -48,25 +71,7 @@
 
 ---
 
-### 4. **Beautiful UI/UX**
-
-#### Design System
-- **Light Theme**: Professional, easy-on-eyes color palette
-- **Gradient Accents**: Blue-to-cyan primary gradient
-- **Glass Morphism**: Frosted glass effects on headers
-- **Smooth Animations**: Framer Motion powered transitions
-- **Micro-interactions**: Hover effects, button animations
-
-#### Components
-- **Floating Action Buttons**: Voice controls with ripple effects
-- **Sample Query Cards**: Quick-start suggestions
-- **Message Bubbles**: Distinct user/AI styling
-- **Loading Indicators**: Pulsing dots animation
-- **Status Badges**: Real-time AI status
-
----
-
-### 5. **Smart Query Processing**
+### 4. **Smart Query Processing**
 
 #### Pattern Recognition
 - **District Rainfall**: "Annual rainfall for Davangere district"
@@ -82,49 +87,19 @@
 
 ---
 
-## 🎨 UI Components Breakdown
-
-### Header
-- **Logo**: Animated brain icon with gradient
-- **Title**: Gradient text effect
-- **Status Indicator**: Live AI status badge
-- **Sticky Position**: Always visible while scrolling
-
-### Welcome Screen
-- **Hero Section**: Large sparkles icon with animation
-- **Sample Queries**: 4 categorized quick-start cards
-  - Rainfall queries (blue)
-  - Crop queries (green)
-  - Production queries (purple)
-  - Recommendation queries (orange)
-
-### Chat Area
-- **User Messages**: Right-aligned, blue gradient background
-- **AI Messages**: Left-aligned, white with shadow
-- **Avatars**: Icon-based user/bot indicators
-- **Timestamps**: Formatted time display
-
-### Input Section
-- **Text Input**: Large, rounded input field
-- **Voice Button**: Animated microphone with pulse
-- **Speaker Button**: Voice output control
-- **Send Button**: Gradient submit button
-- **Footer**: Creator attribution
-
----
-
 ## 🔧 Technical Features
 
 ### Frontend Architecture
 ```
 frontend/
 ├── app/
-│   ├── layout.tsx       # Root layout with metadata
-│   ├── page.tsx         # Main chat interface
-│   └── globals.css      # Global styles & animations
+│   ├── layout.tsx       # Root layout with metadata & fonts
+│   ├── page.tsx         # Main chat interface (v2.0)
+│   └── globals.css      # Enterprise Design System
 ├── components/
-│   ├── VoiceAssistant.tsx  # Voice I/O component
-│   └── ChatMessage.tsx     # Message display component
+│   ├── VoiceAssistant.tsx  # Enhanced Voice I/O
+│   ├── ChatMessage.tsx     # Premium Message Bubbles
+│   └── ChartRenderer.tsx   # Advanced Recharts Wrapper
 └── lib/
     └── utils.ts         # Utility functions
 ```
@@ -134,9 +109,9 @@ frontend/
 project_samarth/
 ├── api.py              # FastAPI server
 ├── agent/
-│   └── core.py         # AI agent logic
+│   └── core.py         # AI agent logic (Llama 3.3)
 ├── data/
-│   ├── processed/      # Database files
+│   ├── processed/      # Database files (SQLite)
 │   └── agronomy_kb.yaml # Knowledge base
 └── etl/                # Data processing
 ```
@@ -144,192 +119,30 @@ project_samarth/
 ### API Endpoints
 - `GET /`: Health check
 - `POST /chat`: Main chat endpoint
-  - Input: `{message, session_id}`
+  - Input: `{message, session_id, history}`
   - Output: `{response, structured_data}`
 
 ---
 
-## 🎯 Advanced Features
-
-### 1. Session Management
-- Unique session IDs for each user
-- Conversation context preservation
-- Structured data caching
-
-### 2. Error Handling
-- Graceful fallbacks for API errors
-- User-friendly error messages
-- Automatic retry logic
-
-### 3. Performance Optimization
-- Lazy loading for components
-- Optimized animations (GPU-accelerated)
-- Efficient state management
-- Debounced API calls
-
-### 4. Accessibility
-- Keyboard navigation support
-- Screen reader compatible
-- High contrast ratios
-- Focus indicators
-
----
-
-## 📊 Data Processing
-
-### SQL Query Planning
-- **Deterministic Planners**: Pattern-based SQL generation
-- **Smart Normalization**: District/state name handling
-- **CTE Optimization**: Efficient rainfall calculations
-- **Fallback Logic**: AI synthesis when no planner matches
-
-### Data Validation
-- Null value handling
-- Unit conversion
-- Data type coercion
-- Outlier detection
-
----
-
-## 🚀 Performance Metrics
-
-### Frontend
-- **First Contentful Paint**: < 1s
-- **Time to Interactive**: < 2s
-- **Lighthouse Score**: 95+
-- **Bundle Size**: Optimized with tree-shaking
-
-### Backend
-- **Response Time**: < 500ms (typical)
-- **Concurrent Users**: 100+ (on free tier)
-- **Database Queries**: < 100ms
-- **LLM Latency**: 1-3s (Groq)
-
----
-
-## 🎨 Animation Details
+## � Animation Details (v2.0)
 
 ### Entrance Animations
-- **Fade + Slide**: Messages appear from bottom
+- **Fade + Slide**: Messages appear smoothly from bottom
 - **Scale**: Buttons grow from center
-- **Stagger**: Sequential card animations
+- **Stagger**: Sequential card animations on welcome screen
 
 ### Interaction Animations
 - **Hover**: Scale + shadow increase
-- **Tap**: Scale down feedback
-- **Loading**: Pulsing dots sequence
-
-### Voice Animations
-- **Listening**: Red ripple effect
-- **Speaking**: Purple dual-ripple effect
-- **Idle**: Subtle gradient shift
-
----
-
-## 🔐 Security Features
-
-- **CORS Protection**: Configured origins
-- **Environment Variables**: Sensitive data isolation
-- **Input Validation**: SQL injection prevention
-- **Rate Limiting**: API abuse protection (Render)
-- **HTTPS**: Enforced on production
+- **Typing Indicator**: Premium dot animation sequence
+- **Voice Pulse**: Ripple effect during speech input
 
 ---
 
 ## 📱 Responsive Design
-
-### Breakpoints
-- **Mobile**: < 640px (single column)
-- **Tablet**: 640-1024px (adjusted spacing)
-- **Desktop**: > 1024px (full layout)
-
-### Adaptive Features
-- **Touch Targets**: 44px minimum on mobile
-- **Font Scaling**: Responsive typography
-- **Grid Layout**: Flexible column counts
-- **Overflow Handling**: Horizontal scroll for tables
-
----
-
-## 🌐 Browser Support
-
-### Fully Supported
-- Chrome 90+
-- Edge 90+
-- Safari 14+
-- Firefox 88+
-
-### Voice Features
-- Chrome/Edge: Full support
-- Safari: Partial (recognition limited)
-- Firefox: Synthesis only
-
----
-
-## 📈 Future Enhancements (Roadmap)
-
-### Planned Features
-- [ ] Multi-language support
-- [ ] Export data (CSV, PDF)
-- [ ] Advanced charts (D3.js)
-- [ ] User authentication
-- [ ] Conversation history
-- [ ] Dark mode toggle
-- [ ] Mobile app (React Native)
-- [ ] Offline mode (PWA)
-
-### AI Improvements
-- [ ] Multi-turn conversations
-- [ ] Context-aware follow-ups
-- [ ] Image analysis
-- [ ] Predictive analytics
-- [ ] Custom model fine-tuning
-
----
-
-## 💡 Usage Tips
-
-### Best Practices
-1. **Be Specific**: Include district, year, crop names
-2. **Use Keywords**: "rainfall", "production", "top", "compare"
-3. **Voice Clarity**: Speak clearly in quiet environment
-4. **Wait for Response**: Don't send multiple queries simultaneously
-
-### Example Queries
-```
-✅ "Annual rainfall for Davangere district of Karnataka"
-✅ "Top 10 crops in Tamil Nadu in 2020"
-✅ "Compare wheat production in UP 2015 vs 2020"
-✅ "What is the optimal rainfall for rice cultivation?"
-
-❌ "Tell me about crops" (too vague)
-❌ "Rainfall" (missing location)
-```
-
----
-
-## 🛠️ Customization Guide
-
-### Changing Colors
-Edit `frontend/app/globals.css`:
-```css
---primary: 221.2 83.2% 53.3%;  /* Blue */
---secondary: 210 40% 96.1%;    /* Light gray */
-```
-
-### Adding New Sample Queries
-Edit `frontend/app/page.tsx`:
-```typescript
-const SAMPLE_QUERIES = [
-  { icon: YourIcon, text: "Your query", color: "from-x to-y" },
-];
-```
-
-### Backend Customization
-Edit `agent/core.py` to add new planners or modify AI behavior.
+- **Mobile**: Swipeable sidebar, bottom sheet input, optimized touch targets
+- **Desktop**: Split view with persistent sidebar and wide chat area
 
 ---
 
 **Created by Vashista C V**
-**Version: 1.0.0**
-**Last Updated: December 2025**
+**Version: 2.0.0 (Enterprise Edition)**

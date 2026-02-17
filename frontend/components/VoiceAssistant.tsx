@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Mic, MicOff, Volume2, VolumeX } from "lucide-react";
+import { Mic, MicOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -16,13 +16,11 @@ export default function VoiceAssistant({
     isListening,
     setIsListening,
 }: VoiceAssistantProps) {
-    const [isSpeaking, setIsSpeaking] = useState(false);
     const [isSupported, setIsSupported] = useState(false);
     const recognitionRef = useRef<any>(null);
     const synthRef = useRef<SpeechSynthesis | null>(null);
 
     useEffect(() => {
-        // Check for browser support
         if (typeof window !== "undefined") {
             const SpeechRecognition =
                 (window as any).SpeechRecognition ||
@@ -43,8 +41,7 @@ export default function VoiceAssistant({
                     setIsListening(false);
                 };
 
-                recognition.onerror = (event: any) => {
-                    console.error("Speech recognition error:", event.error);
+                recognition.onerror = () => {
                     setIsListening(false);
                 };
 
@@ -57,12 +54,8 @@ export default function VoiceAssistant({
         }
 
         return () => {
-            if (recognitionRef.current) {
-                recognitionRef.current.stop();
-            }
-            if (synthRef.current) {
-                synthRef.current.cancel();
-            }
+            if (recognitionRef.current) recognitionRef.current.stop();
+            if (synthRef.current) synthRef.current.cancel();
         };
     }, [onTranscript, setIsListening]);
 
@@ -78,65 +71,55 @@ export default function VoiceAssistant({
         }
     };
 
-    const speak = (text: string) => {
-        if (!synthRef.current) return;
-
-        synthRef.current.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
-        utterance.volume = 1.0;
-
-        utterance.onstart = () => setIsSpeaking(true);
-        utterance.onend = () => setIsSpeaking(false);
-
-        synthRef.current.speak(utterance);
-    };
-
-    const stopSpeaking = () => {
-        if (synthRef.current) {
-            synthRef.current.cancel();
-            setIsSpeaking(false);
-        }
-    };
-
-    // Expose speak function to parent
+    // Expose speak function
     useEffect(() => {
-        (window as any).speakResponse = speak;
+        (window as any).speakResponse = (text: string) => {
+            if (!synthRef.current) return;
+            synthRef.current.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            synthRef.current.speak(utterance);
+        };
     }, []);
 
-    if (!isSupported) {
-        return null;
-    }
+    if (!isSupported) return null;
 
     return (
         <motion.button
             whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.9 }}
             onClick={toggleListening}
             className={cn(
-                "relative p-2 rounded-full transition-colors duration-200",
+                "relative p-2 rounded-full transition-all duration-200",
                 isListening
-                    ? "bg-red-50 text-red-500"
-                    : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                    ? "text-red-500"
+                    : "hover:bg-[var(--bg-tertiary)]"
             )}
+            style={{ color: isListening ? undefined : "var(--text-tertiary)" }}
             title={isListening ? "Stop listening" : "Voice input"}
             type="button"
         >
             <AnimatePresence mode="wait">
                 {isListening ? (
                     <motion.div
-                        key="mic-off"
+                        key="listening"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
+                        className="relative"
                     >
-                        <div className="absolute inset-0 rounded-full animate-ping bg-red-200 opacity-75"></div>
-                        <MicOff className="w-5 h-5 relative z-10" />
+                        {/* Ripple rings */}
+                        <span className="absolute inset-0 rounded-full bg-red-400/30 animate-ping" />
+                        <span
+                            className="absolute -inset-1 rounded-full border-2 border-red-400/40"
+                            style={{ animation: "ripple 1.5s infinite" }}
+                        />
+                        <MicOff className="w-5 h-5 relative z-10 text-red-500" />
                     </motion.div>
                 ) : (
                     <motion.div
-                        key="mic-on"
+                        key="idle"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
