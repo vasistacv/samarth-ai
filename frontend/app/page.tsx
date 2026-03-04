@@ -533,6 +533,14 @@ export default function Home() {
                   <span className="text-[13px]">Keyboard shortcuts</span>
                   <span className="ml-auto kbd text-gray-600">?</span>
                 </button>
+
+                {/* Developer Credit */}
+                <div className="px-3 pt-2 pb-1 text-center">
+                  <p className="text-[10px] text-gray-600 font-medium">
+                    Developed by{" "}
+                    <span className="text-gray-400 font-semibold">Vashista C V</span>
+                  </p>
+                </div>
               </div>
             </motion.aside>
           </>
@@ -697,6 +705,18 @@ export default function Home() {
                     </motion.button>
                   ))}
                 </motion.div>
+
+                {/* Developer Credit on Welcome Screen */}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6, duration: 0.5 }}
+                  className="text-[11px] mt-8 font-medium"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  Developed by{" "}
+                  <span className="gradient-text text-[11px]">Vashista C V</span>
+                </motion.p>
               </motion.div>
             </div>
           ) : (
@@ -775,7 +795,7 @@ export default function Home() {
               className="hidden sm:block text-center text-[11px] mt-2"
               style={{ color: "var(--text-tertiary)" }}
             >
-              Samarth AI can make mistakes. Consider checking important information.
+              Samarth AI can make mistakes. Consider checking important information. · Developed by <span className="font-semibold" style={{ color: "var(--text-secondary)" }}>Vashista C V</span>
             </p>
           </div>
         </div>
@@ -859,7 +879,8 @@ export default function Home() {
                   </div>
                 </div>
                 <p className="text-xs mt-4" style={{ color: "var(--text-tertiary)" }}>
-                  Created by <span className="font-semibold" style={{ color: "var(--text-secondary)" }}>Vashista C V</span>
+                  Designed & Developed by{" "}
+                  <span className="gradient-text">Vashista C V</span>
                 </p>
               </div>
             </motion.div>
